@@ -1,0 +1,21 @@
+{{- if .Values.ws.kedaAutoscaling.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: web-scaled
+  namespace: {{ .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    name: web-service
+  pollingInterval: 15
+  cooldownPeriod: 10
+  maxReplicaCount: {{.Values.ws.kedaAutoscaling.maxReplicas}}
+  minReplicaCount: {{.Values.ws.kedaAutoscaling.minReplicas}}
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-service.default.svc.cluster.local:9090
+        metricName: pyramid_web_scale
+        threshold: {{.Values.ws.kedaAutoscaling.threshold}}
+        query: max(pyramid_web_scale)
+{{- end }}

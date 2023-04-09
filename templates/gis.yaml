@@ -1,0 +1,37 @@
+{{- if .Values.gis }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gis-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: pagis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: pagis
+        {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: pagis
+          image: "{{ .Values.repo }}/gis:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          readinessProbe:
+            exec:
+              command:
+                - ./readiness.sh
+          resources:
+            limits:
+              cpu: "{{ .Values.gis.limits.cpu }}"
+              memory: "{{ .Values.gis.limits.memory }}"
+            requests:
+              cpu: "{{ .Values.gis.requests.cpu }}"
+              memory: "{{ .Values.gis.requests.memory }}"
+          env:
+          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- end }}

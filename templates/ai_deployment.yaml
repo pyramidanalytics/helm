@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ai-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: paai
+  replicas: {{.Values.ai.replicas}}
+  template:
+    metadata:
+      labels:
+        app: paai
+        {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: paai
+          image: "{{ .Values.repo }}/ai:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          readinessProbe:
+            exec:
+              command:
+                - ./readiness.sh
+          resources:
+            limits:
+              cpu: "{{ .Values.ai.limits.cpu }}"
+              memory: "{{ .Values.ai.limits.memory }}"
+              ephemeral-storage: "{{ .Values.ai.limits.ephemeral_storage }}"
+            requests:
+              cpu: "{{ .Values.ai.requests.cpu }}"
+              memory: "{{ .Values.ai.requests.memory }}"
+              ephemeral-storage: "{{ .Values.ai.requests.ephemeral_storage }}"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                    "./stop_main_processes.sh"
+                  ]
+          env:
+          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}

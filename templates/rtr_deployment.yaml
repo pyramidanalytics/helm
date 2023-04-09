@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: router-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: partr
+  replicas: {{.Values.rtr.replicas}}
+  template:
+    metadata:
+      labels:
+        app: partr
+        {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: partr
+          image: "{{ .Values.repo }}/rtr:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          readinessProbe:
+            exec:
+              command:
+                - ./readiness.sh
+          resources:
+            limits:
+              cpu: "{{ .Values.rtr.limits.cpu }}"
+              memory: "{{ .Values.rtr.limits.memory }}"
+            requests:
+              cpu: "{{ .Values.rtr.requests.cpu }}"
+              memory: "{{ .Values.rtr.requests.memory }}"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                    "./stop_main_processes.sh"
+                  ]
+          env:
+          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}

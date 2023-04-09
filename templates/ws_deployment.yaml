@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webservice-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: paws
+  replicas: {{.Values.ws.replicas}}
+  template:
+    metadata:
+      labels:
+        app: paws
+        {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: paws
+          image: "{{ .Values.repo }}/ws:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          readinessProbe:
+            exec:
+              command:
+                - ./readiness.sh
+          resources:
+            limits:
+              cpu: "{{ .Values.ws.limits.cpu }}"
+              memory: "{{ .Values.ws.limits.memory }}"
+              ephemeral-storage: "{{ .Values.ws.limits.ephemeral_storage }}"
+            requests:
+              cpu: "{{ .Values.ws.requests.cpu }}"
+              memory: "{{ .Values.ws.requests.memory }}"
+              ephemeral-storage: "{{ .Values.ws.requests.ephemeral_storage }}"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                     "./stop_main_processes.sh"
+                  ]
+          env:
+          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+          ports:
+            - containerPort: 8181

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: runtime-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: parte
+  replicas: {{.Values.rte.replicas}}
+  template:
+    metadata:
+      labels:
+        app: parte
+        {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: parte
+          image: "{{ .Values.repo }}/rte:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          readinessProbe:
+            exec:
+              command:
+                - ./readiness.sh
+          resources:
+            limits:
+              cpu: "{{ .Values.rte.limits.cpu }}"
+              memory: "{{ .Values.rte.limits.memory }}"
+            requests:
+              cpu: "{{ .Values.rte.requests.cpu }}"
+              memory: "{{ .Values.rte.requests.memory }}"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                    "./stop_main_processes.sh"
+                  ]
+          env:
+            - name: satellite_count
+              value: "{{.Values.rte.satellites}}"
+          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}

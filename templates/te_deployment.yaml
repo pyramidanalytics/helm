@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: pate
+  replicas: {{.Values.te.replicas}}
+  template:
+    metadata:
+      labels:
+        app: pate
+        {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      terminationGracePeriodSeconds: {{ .Values.te.terminationGracePeriodSeconds }}
+      containers:
+        - name: pate
+          image: "{{ .Values.repo }}/te:{{ .Chart.AppVersion }}"
+          imagePullPolicy: "IfNotPresent"
+          readinessProbe:
+            exec:
+              command:
+                - ./readiness.sh
+          resources:
+            limits:
+              cpu: "{{ .Values.te.limits.cpu }}"
+              memory: "{{ .Values.te.limits.memory }}"
+              ephemeral-storage: "{{ .Values.te.limits.ephemeral_storage }}"
+            requests:
+              cpu: "{{ .Values.te.requests.cpu }}"
+              memory: "{{ .Values.te.requests.memory }}"
+              ephemeral-storage: "{{ .Values.te.requests.ephemeral_storage }}"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                    "./stop_main_processes.sh"
+                  ]
+          env:
+            - name: satellite_count
+              value: "{{.Values.te.satellites}}"
+            - name: printer_count
+              value: "{{.Values.te.printers}}"
+          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}

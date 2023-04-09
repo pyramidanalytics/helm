@@ -1,0 +1,127 @@
+repo: "pyramidanalytics"
+imagePullPolicy: "IfNotPresent"
+#unattended is all optional, if not enabled you will get a UI on first load letting you configure it all
+unattended:
+  enabled: false
+  database:
+    #if provided as "existing" you only need to provide an existing pyramid database, k8s will join that cluster without changing
+    repoType: "native"
+    #database server type SqlServer/Postgresql
+    type: "Postgresql"
+    #database server address
+    address: "<postgres database server address>"
+    #database server port
+    port: 5432
+    #if provided as "on" the installer will create the database using the proved credentials
+    createDB: "on"
+    #database name inside the database server
+    database: "test1"
+    #database user
+    user: "postgres"
+    #database password
+    password: "admin"
+  storage:
+    type: "PersistentVolume"
+  adminUser:
+    #first pyramid admin username
+    name: "admin"
+    #first pyramid admin user password
+    password: "admin"
+
+
+#ws is the web server which handle http networking and authentication
+ws:
+  #defult port for your ws, match this with your ingress
+  port: 8282
+  #how many ws would you want, ws
+  replicas: 1
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "2000Mi"
+    cpu: "2000m"
+    ephemeral_storage: "2Gi"
+  limits:
+    memory: "2000Mi"
+    cpu: "2000m"
+    ephemeral_storage: "4Gi"
+
+  kedaAutoscaling:
+    #if enabled will use keda to auto-scale based on active requests
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    threshold: 180
+    scaleDownDuration: 10
+#rtr router is the core of request routing, deciding where to send the request
+rtr:
+  #how many routers you want, 1 is fine for performance, 2 will increase reliability, 3 and more are meaningless
+  replicas: 1
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "1000Mi"
+    cpu: "2000m"
+  limits:
+    memory: "1000Mi"
+    cpu: "3000m"
+
+rte:
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "4000Mi"
+    cpu: "2000m"
+  limits:
+    memory: "8000Mi"
+    cpu: "4000m"
+  replicas: 1
+  satellites: 2
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCpuAverageValue: 70%
+    scaleDownDuration: 10
+te:
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "4000Mi"
+    cpu: "4000m"
+    ephemeral_storage: "3Gi"
+  limits:
+    memory: "8000Mi"
+    cpu: "8000m"
+    ephemeral_storage: "10Gi"
+  terminationGracePeriodSeconds: 300
+  replicas: 1
+  satellites: 2
+  printers: 2
+  kedaAutoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    scaleDownDuration: 10
+ai:
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "4000Mi"
+    cpu: "4000m"
+    ephemeral_storage: "3Gi"
+  limits:
+    memory: "8000Mi"
+    cpu: "8000m"
+    ephemeral_storage: "5Gi"
+  replicas: 1
+  satellites: 2
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCpuAverageValue: 50%
+gis:
+  enabled: true
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "2000Mi"
+    cpu: "1000m"
+  limits:
+    memory: "2000Mi"
+    cpu: "2000m"

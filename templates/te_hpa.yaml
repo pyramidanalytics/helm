@@ -1,0 +1,21 @@
+{{- if .Values.te.kedaAutoscaling.enabled }}
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: te-scaled
+  namespace: {{ .Release.Namespace }}
+spec:
+  scaleTargetRef:
+    name: task-service
+  pollingInterval: 15
+  cooldownPeriod: 10
+  maxReplicaCount: {{.Values.te.kedaAutoscaling.maxReplicas}}
+  minReplicaCount: {{.Values.te.kedaAutoscaling.minReplicas}}
+  triggers:
+    - type: prometheus
+      metadata:
+        serverAddress: http://prometheus-service.default.svc.cluster.local:9090
+        metricName: pyramid_te_scale
+        threshold: {{.Values.te.kedaAutoscaling.threshold}}
+        query: max(pyramid_te_scale)
+{{- end }}
