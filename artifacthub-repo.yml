@@ -1,5 +1,5 @@
 repositoryID: The ID of the Artifact Hub repository where the packages will be published to (optional, but it enables verified publisher)
-owners: # (optional, used to claim repository ownership)
+owners:
   - name: PyramidAnalytics
     email: pyramidanalyticsteam@pyramidanalytics.com
   - name: Ben or Danziger
