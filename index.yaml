@@ -3,7 +3,7 @@ entries:
   keda:
   - apiVersion: v2
     appVersion: 2.10.0
-    created: "2023-04-09T17:12:17.642789+03:00"
+    created: "2023-04-09T19:04:03.5417244+03:00"
     description: Event-based autoscaler for workloads on Kubernetes
     digest: 4be1fc8dba9d0e17ff475ca3dcb1183b07164ccaddfc48c67f6369a56f1b1777
     home: https://github.com/kedacore/keda
@@ -35,7 +35,7 @@ entries:
           description: "Fixed service labels/annotations."
     apiVersion: v2
     appVersion: 0.6.3
-    created: "2023-04-09T17:12:17.6438372+03:00"
+    created: "2023-04-09T19:04:03.5422454+03:00"
     description: Metrics Server is a scalable, efficient source of container resource
       metrics for Kubernetes built-in autoscaling pipelines.
     digest: 211ed5798a8b44ecae271f5615dcfe101d919dbaf47dda447f952b174dce5395
@@ -62,19 +62,16 @@ entries:
   pyramidAnalytics:
   - apiVersion: v2
     appVersion: 2020.27.135
-    created: "2023-04-09T17:12:17.6396246+03:00"
+    created: "2023-04-09T19:04:03.5375228+03:00"
     dependencies:
     - name: keda
       repository: https://kedacore.github.io/charts
       version: 2.10.0
-    - name: metrics-server
-      repository: https://kubernetes-sigs.github.io/metrics-server/
-      version: 3.9.0
     description: A Helm chart for PyramidAnalytics Kubernetes solution
-    digest: ea47131729089e44ce5f45bd6af1886d444caba631b87e0aa1b03160effc18d8
+    digest: 58da0177b2b7aaef7ed7632a7609d0b77d4334b63431d1be8354cc709293f432
     name: pyramidAnalytics
     type: application
     urls:
-    - https://raw.githubusercontent.com/pyramidanalytics/helm/main/pyramidAnalytics-2020.27.135.tgz
+    - pyramidAnalytics-2020.27.135.tgz
     version: 2020.27.135
-generated: "2023-04-09T17:12:17.6338524+03:00"
+generated: "2023-04-09T19:04:03.5302207+03:00"

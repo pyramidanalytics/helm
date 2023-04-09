@@ -10,6 +10,3 @@ dependencies:
  - name: keda
    repository: https://kedacore.github.io/charts
    version: 2.10.0
- - name: metrics-server 
-   repository: https://kubernetes-sigs.github.io/metrics-server/
-   version: 3.9.0
