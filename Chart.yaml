@@ -1,5 +1,5 @@
 apiVersion: v2
-name: pyramidAnalytics
+name: pyramidanalytics
 description: A Helm chart for PyramidAnalytics Kubernetes solution
 
 type: application

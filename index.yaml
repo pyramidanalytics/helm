@@ -3,7 +3,7 @@ entries:
   keda:
   - apiVersion: v2
     appVersion: 2.10.0
-    created: "2023-04-09T19:14:38.5205519+03:00"
+    created: "2023-04-09T19:27:59.6627575+03:00"
     description: Event-based autoscaler for workloads on Kubernetes
     digest: 4be1fc8dba9d0e17ff475ca3dcb1183b07164ccaddfc48c67f6369a56f1b1777
     home: https://github.com/kedacore/keda
@@ -27,7 +27,7 @@ entries:
   pyramidAnalytics:
   - apiVersion: v2
     appVersion: 2020.27.135
-    created: "2023-04-09T19:14:38.5164264+03:00"
+    created: "2023-04-09T19:27:59.6585796+03:00"
     dependencies:
     - name: keda
       repository: https://kedacore.github.io/charts
@@ -39,4 +39,4 @@ entries:
     urls:
     - pyramidAnalytics-2020.27.135.tgz
     version: 2020.27.135
-generated: "2023-04-09T19:14:38.5059966+03:00"
+generated: "2023-04-09T19:27:59.6482639+03:00"
