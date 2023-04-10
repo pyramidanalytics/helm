@@ -22,9 +22,11 @@ Finally, install Pyramid by running:
 
     helm repo add pyramid https://pyramidanalytics.github.io/helm/
     helm install pyramid pyramid/pyramidanalytics
+    
 This will install in the default namespace. To install in a different namespace, use the following command:
 
     helm install pyramid pyramid/pyramidanalytics --namespace=pyramid --create-namespace
+
 ## Customization 
 To fine-tune Pyramid, you can tweak different settings, such as:
  - The number of pod for each service 
