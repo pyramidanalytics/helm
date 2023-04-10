@@ -1,12 +1,8 @@
 apiVersion: v2
-name: pyramidanalytics
+name: pyramidAnalytics
 description: A Helm chart for PyramidAnalytics Kubernetes solution
 
 type: application
 
 version: 2020.27.135
 appVersion: "2020.27.135"
-dependencies:
- - name: keda
-   repository: https://kedacore.github.io/charts
-   version: 2.10.0

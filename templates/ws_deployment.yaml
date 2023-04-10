@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webservice-service
+  name: web-service
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "pyramidAnalytics.labels" . | nindent 4 }}

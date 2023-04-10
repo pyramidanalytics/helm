@@ -17,5 +17,5 @@ spec:
         name: cpu
         target:
           type: Utilization
-          averageUtilization: {{.Values.rte.autoscaling.targetCpuAverageUtilization}}
+          averageUtilization: {{.Values.rte.autoscaling.targetCpuUtilization}}
 {{- end }}

@@ -47,7 +47,7 @@ ws:
 
   kedaAutoscaling:
     #if enabled will use keda to auto-scale based on active requests
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 5
     threshold: 180
@@ -75,10 +75,10 @@ rte:
   replicas: 1
   satellites: 2
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 5
-    targetCpuAverageValue: 70%
+    targetCpuUtilization: 70
     scaleDownDuration: 10
 te:
   requests:
@@ -95,9 +95,10 @@ te:
   satellites: 2
   printers: 2
   kedaAutoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 5
+    threshold: 100
     scaleDownDuration: 10
 ai:
   requests:
@@ -112,10 +113,10 @@ ai:
   replicas: 1
   satellites: 2
   autoscaling:
-    enabled: false
+    enabled: true
     minReplicas: 1
     maxReplicas: 5
-    targetCpuAverageValue: 50%
+    targetCpuUtilization: 50
 gis:
   enabled: true
   requests:
