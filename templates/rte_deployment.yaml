@@ -41,4 +41,6 @@ spec:
           env:
             - name: satellite_count
               value: "{{.Values.rte.satellites}}"
-          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.mount" . | nindent 6 }}
+{{- include "pyramidAnalytics.volume" . | nindent 6 }}

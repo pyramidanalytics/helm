@@ -1,0 +1,62 @@
+{{- if eq "NFS" $.Values.storage.type }}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pyramid-storage-pv
+  labels:
+    name: pyramid-storage
+spec:
+  capacity:
+    storage: {{$.Values.storage.size}}
+  volumeMode: Filesystem
+  accessModes:
+    - ReadWriteMany
+  storageClassName: manual
+  mountOptions:
+    - nfsvers=4
+  nfs:
+    path: {{$.Values.storage.nfs.path}}
+    server: {{$.Values.storage.nfs.ip}}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pyramid-storage-pvc
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: ""
+  volumeName: pyramid-storage-pv
+  resources:
+    requests:
+      storage: {{$.Values.storage.size}}
+---
+{{- end }}
+
+{{- if eq "GoogleStore" $.Values.storage.type }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: pyramid-storage-pvc
+  namespace: {{ .Release.Namespace }}
+spec:
+  accessModes:
+  - ReadWriteMany
+  storageClassName: google-filestore-storage-class
+  resources:
+    requests:
+      storage: {{$.Values.storage.size}}
+---
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: google-filestore-storage-class
+  namespace: {{ .Release.Namespace }}
+provisioner: filestore.csi.storage.gke.io
+volumeBindingMode: Immediate
+allowVolumeExpansion: true
+parameters:
+  tier: standard
+  network: default
+{{- end }}

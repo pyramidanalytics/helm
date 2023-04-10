@@ -3,8 +3,9 @@ imagePullPolicy: "IfNotPresent"
 #unattended is all optional, if not enabled you will get a UI on first load letting you configure it all
 unattended:
   enabled: false
+  #all of those settings can be viewd as json when installing from the web UI
   database:
-    #if provided as "existing" you only need to provide an existing pyramid database, k8s will join that cluster without changing
+    #if provided as "existing" you only need to provide an existing Pyramid database, and Pyramid will use that database
     repoType: "native"
     #database server type SqlServer/Postgresql
     type: "Postgresql"
@@ -27,13 +28,19 @@ unattended:
     name: "admin"
     #first pyramid admin user password
     password: "admin"
-
-
+storage:
+  #type of local storage, valid values are GoogleStore, NFS and other (FTP, S3 and Azure Blob) which should be configured at the web UI
+  type: other
+  size: "10Gi"
+  #settings for NFS server, needed only if NFS was chosen
+  nfs:
+    path: "/"
+    ip: "0.0.0.0"
 #ws is the web server which handle http networking and authentication
 ws:
   #defult port for your ws, match this with your ingress
   port: 8282
-  #how many ws would you want, ws
+  #how many ws would you want
   replicas: 1
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
@@ -41,6 +48,7 @@ ws:
     cpu: "2000m"
     ephemeral_storage: "2Gi"
   limits:
+    #you can increse those values to better match your nodes, the WS main limitation is IO
     memory: "2000Mi"
     cpu: "2000m"
     ephemeral_storage: "4Gi"
@@ -51,7 +59,7 @@ ws:
     minReplicas: 1
     maxReplicas: 5
     threshold: 180
-    scaleDownDuration: 10
+
 #rtr router is the core of request routing, deciding where to send the request
 rtr:
   #how many routers you want, 1 is fine for performance, 2 will increase reliability, 3 and more are meaningless
@@ -61,25 +69,33 @@ rtr:
     memory: "1000Mi"
     cpu: "2000m"
   limits:
+  #you can increse those values to better match your nodes, but normally there shouldn't be a need for it
     memory: "1000Mi"
     cpu: "3000m"
 
+#rte is the runtime engine, the core of the application which handles all active requests, queries and CMS
 rte:
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "4000Mi"
     cpu: "2000m"
   limits:
+  #you can increse those values to better match your nodes, based on system usage the RTE can be very cpu heavy
     memory: "8000Mi"
     cpu: "4000m"
+  #how many replicates do you want, the system will do it's best to use all of them equally 
   replicas: 1
+  #satellties are used to preview ETL results
   satellites: 2
+  #in the event of a high cpu usage the autoscale will add another RTE server
   autoscaling:
     enabled: true
     minReplicas: 1
     maxReplicas: 5
     targetCpuUtilization: 70
     scaleDownDuration: 10
+
+#te is the Task engine, handles ETLs and prints
 te:
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
@@ -87,19 +103,25 @@ te:
     cpu: "4000m"
     ephemeral_storage: "3Gi"
   limits:
+  #you can increse those values to better match your nodes, based on system usage the TE can be CPU heavy and memory heavy
     memory: "8000Mi"
     cpu: "8000m"
     ephemeral_storage: "10Gi"
   terminationGracePeriodSeconds: 300
   replicas: 1
+  #satellites are used to run ETL tasks
   satellites: 2
+  #printers are used to print to PDF, Power Point, Word, excel, HTML and PNG
   printers: 2
+
+  #in the event of a long queue in the task engine the autoscale will add another TE server
   kedaAutoscaling:
     enabled: true
     minReplicas: 1
     maxReplicas: 5
     threshold: 100
     scaleDownDuration: 10
+#ai is the artificial intelligence server which host all Python and R script handling
 ai:
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
@@ -107,6 +129,7 @@ ai:
     cpu: "4000m"
     ephemeral_storage: "3Gi"
   limits:
+  #you can increse those values to better match your nodes, based on system usage the AI can be very cpu heavy
     memory: "8000Mi"
     cpu: "8000m"
     ephemeral_storage: "5Gi"
@@ -116,7 +139,9 @@ ai:
     enabled: true
     minReplicas: 1
     maxReplicas: 5
-    targetCpuUtilization: 50
+    targetCpuUtilization: 70
+#GIS is the GeoSpatial server handles mapping data for queris, can be disabled if not in use
+#dose not support handling of more then 1 instance
 gis:
   enabled: true
   requests:
@@ -124,5 +149,6 @@ gis:
     memory: "2000Mi"
     cpu: "1000m"
   limits:
+    #you can increse those values to better match your nodes, but normally there shouldn't be a need for it
     memory: "2000Mi"
     cpu: "2000m"

@@ -51,9 +51,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 
-{{/*
-Environment variables shared across all deployments
-*/}}
 {{- define "pyramidAnalytics.baseEnv" -}}
 - name: host_name
   valueFrom:
@@ -67,4 +64,21 @@ Environment variables shared across all deployments
   valueFrom:
     fieldRef:
       fieldPath: metadata.namespace
+{{- end }}
+
+{{- define "pyramidAnalytics.mount" -}}
+{{- if (not (eq "other" $.Values.storage.type)) }}
+    volumeMounts:
+    - name: persistent-storage
+      mountPath: /opt/pyramid-repo
+{{- end }}
+{{- end }}
+
+{{- define "pyramidAnalytics.volume" -}}
+{{- if (not (eq "other" $.Values.storage.type)) }}
+volumes:
+- name: persistent-storage
+  persistentVolumeClaim:
+    claimName: pyramid-storage-pvc
+{{- end }}
 {{- end }}

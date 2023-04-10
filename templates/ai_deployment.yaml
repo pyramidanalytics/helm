@@ -41,4 +41,6 @@ spec:
                     "./stop_main_processes.sh"
                   ]
           env:
-          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.mount" . | nindent 6 }}
+{{- include "pyramidAnalytics.volume" . | nindent 6 }}
