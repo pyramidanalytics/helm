@@ -1,4 +1,4 @@
-repositoryID: The ID of the Artifact Hub repository where the packages will be published to (optional, but it enables verified publisher)
+repositoryID: bab8e301-d5d4-47b3-a6aa-90669a8621f8
 owners:
   - name: PyramidAnalytics
     email: pyramidanalyticsteam@pyramidanalytics.com
