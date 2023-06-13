@@ -22,6 +22,10 @@ Finally, install Pyramid by running:
 
     helm repo add pyramid https://pyramidanalytics.github.io/helm/
     helm install pyramid pyramid/pyramidanalytics
+	
+To install older versions use
+	
+    helm install pyramid pyramid/pyramidanalytics --version 2020.27.135
     
 This will install in the default namespace. To install in a different namespace, use the following command:
 

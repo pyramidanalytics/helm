@@ -116,7 +116,7 @@ te:
 
   #in the event of a long queue in the task engine the autoscale will add another TE server
   kedaAutoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     threshold: 100
@@ -136,7 +136,7 @@ ai:
   replicas: 1
   satellites: 2
   autoscaling:
-    enabled: true
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     targetCpuUtilization: 70
