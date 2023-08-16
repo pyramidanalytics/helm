@@ -2,8 +2,18 @@ apiVersion: v1
 entries:
   pyramidanalytics:
   - apiVersion: v2
+    appVersion: 2023.01.011
+    created: "2023-08-17T01:08:48.988021+03:00"
+    description: A Helm chart for PyramidAnalytics Kubernetes solution
+    digest: e1be24e0d6e69a62e5915f4ffd355699c41df65d6e6a0fb8f9ba1ee72cac1422
+    name: pyramidanalytics
+    type: application
+    urls:
+    - pyramidanalytics-2023.01.011.tgz
+    version: 2023.01.011
+  - apiVersion: v2
     appVersion: 2023.00.357
-    created: "2023-06-13T17:25:49.2257552+03:00"
+    created: "2023-08-17T01:08:48.9247234+03:00"
     description: A Helm chart for PyramidAnalytics Kubernetes solution
     digest: 1cebda4978f1fac6d6392e8295fca25202d683ec0198003ed5236d5deb354028
     name: pyramidanalytics
@@ -12,8 +22,28 @@ entries:
     - pyramidanalytics-2023.00.357.tgz
     version: 2023.00.357
   - apiVersion: v2
+    appVersion: 2020.29.055
+    created: "2023-08-17T01:08:48.9227177+03:00"
+    description: A Helm chart for PyramidAnalytics Kubernetes solution
+    digest: 4ad2373b3b6bccfd23b9dea38e501cc4f4d07787ccd3960dc74bd597559a5325
+    name: pyramidanalytics
+    type: application
+    urls:
+    - pyramidanalytics-2020.29.055.tgz
+    version: 2020.29.055
+  - apiVersion: v2
+    appVersion: 2020.28.140
+    created: "2023-08-17T01:08:48.7833843+03:00"
+    description: A Helm chart for PyramidAnalytics Kubernetes solution
+    digest: f55f4a8c8799297d2bdd0f81a25fad1273f877f01abe7bf468bf9b396097ae00
+    name: pyramidanalytics
+    type: application
+    urls:
+    - pyramidanalytics-2020.28.140.tgz
+    version: 2020.28.140
+  - apiVersion: v2
     appVersion: 2020.27.135
-    created: "2023-04-10T18:22:30.1437013+03:00"
+    created: "2023-08-17T01:08:48.4857024+03:00"
     description: A Helm chart for PyramidAnalytics Kubernetes solution
     digest: 4b836c623aadeb0c0d1dad2c7d85eff285526abfadda8921192c2b9894b0374f
     name: pyramidanalytics
@@ -21,4 +51,4 @@ entries:
     urls:
     - pyramidanalytics-2020.27.135.tgz
     version: 2020.27.135
-generated: "2023-06-13T17:25:49.2235216+03:00"
+generated: "2023-08-17T01:08:48.4847026+03:00"
