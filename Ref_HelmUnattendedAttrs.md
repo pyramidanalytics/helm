@@ -40,20 +40,22 @@ The installationData block contains the database and storage settings required t
 Based on the previous **storageType** setting, the following additional settings are required:
 
 #### FTP/SFTP/NFS
-- **storageHostName*** : FTP server address
-- **storagePort*** : FTP server port
-- **storageUserName*** : FTP server username
-- **storagePassword*** : FTP server password
-- **storageFolder*** : Directory
+- **storageHostName** : FTP server address
+- **storagePort** : FTP server port
+- **storageUserName** : FTP server username
+- **storagePassword** : FTP server password
+- **storageFolder** : Directory
+
 #### AWS-S3
-- **regionId*** : AWS Region Code. A full list can be found here.
-- **awsAccessKeyId*** : AWS Access Key ID. To use an AWS IAM role, set awsAccessKeyId: "iam" after configuring a role on AWS. In this case you do not need to set awsSecretAccessKey.
-- **awsSecretAccessKey*** : AWS Secret Access Key
-- **awsBucket*** : AWS S3 bucket name
+- **regionId** : AWS Region Code. A full list can be found here.
+- **awsAccessKeyId** : AWS Access Key ID. To use an AWS IAM role, set awsAccessKeyId: "iam" after configuring a role on AWS. In this case you do not need to set awsSecretAccessKey.
+- **awsSecretAccessKey** : AWS Secret Access Key
+- **awsBucket** : AWS S3 bucket name
+
 #### Azure blobs
-- **azureBlobAccountName*** : Azure account name
-- **azureBlobAccountKey*** : Azure account key
-- **azureContainer*** : Azure container name
+- **azureBlobAccountName** : Azure account name
+- **azureBlobAccountKey** : Azure account key
+- **azureContainer** : Azure container name
 
 ## Example
 
