@@ -109,11 +109,17 @@ spec:
               subPath: prometheus.yml
           ports:
             - containerPort: 9090
+{{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
       volumes:
         - name: config-volume
           configMap:
             name: prometheus-config
       serviceAccountName: prometheus
+      securityContext:
+        runAsNonRoot: true
+        # user id for user `nobody`
+        runAsUser: 65534
+        runAsGroup: 65534
 ---
 kind: Service
 apiVersion: v1

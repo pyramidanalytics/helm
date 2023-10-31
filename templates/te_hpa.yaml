@@ -9,13 +9,13 @@ spec:
     name: task-service
   pollingInterval: 15
   cooldownPeriod: 10
-  maxReplicaCount: {{.Values.te.kedaAutoscaling.maxReplicas}}
   minReplicaCount: {{.Values.te.kedaAutoscaling.minReplicas}}
+  maxReplicaCount: {{.Values.te.kedaAutoscaling.maxReplicas}}
   triggers:
     - type: prometheus
       metadata:
         serverAddress: "http://prometheus-service.{{ .Release.Namespace }}.svc.cluster.local:9090"
         metricName: pyramid_te_scale
-        threshold: {{.Values.te.kedaAutoscaling.threshold | quote }}
+        threshold: "100"
         query: max(pyramid_te_scale)
 {{- end }}

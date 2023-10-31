@@ -3,38 +3,92 @@ imagePullPolicy: "IfNotPresent"
 #unattended is all optional, if not enabled you will get a UI on first load letting you configure it all
 unattended:
   enabled: false
-  #all of those settings can be viewd as json when installing from the web UI
-  database:
-    #if provided as "existing" you only need to provide an existing Pyramid database, and Pyramid will use that database
+  # Set the following field to the equivalent of the unattended json as defined in the pyramid help
+  # under the "Kubernetes Unattended Initialization" section.
+  installationData:
+    # The type of pyramid database used for installation.
+    # If provided as "existing" - the database server should contain an existing (previously installed) Pyramid database.
+    # If provided as "native" or "rds", a new pyramid database schema will be created in the provided database.
     repoType: "native"
-    #database server type SqlServer/Postgresql
-    type: "Postgresql"
-    #database server address
-    address: "<postgres database server address>"
-    #database server port
+    # The type of database server into which the pyramid database is installed.
+    # "SqlServer" - Microsoft SQL Server
+    # "Postgresql" - PostgreSQL
+    serverType: "Postgresql"
+    # The address of the database server - IP or hostname
+    serverAddress: "ip-or-fqdn"
+    # The port of the database server
     port: 5432
-    #if provided as "on" the installer will create the database using the proved credentials
+    # If provided as "on", the installer will connect to the database with the provided credentials,
+    # and will attempt to create the database.
+    # Providing "on" is not applicable when "existing" or "rds" is provided for the repoType field.
     createDB: "on"
-    #database name inside the database server
-    database: "test1"
-    #database user
-    user: "postgres"
-    #database password
-    password: "admin"
-  storage:
-    type: "PersistentVolume"
-  adminUser:
-    #first pyramid admin username
-    name: "admin"
-    #first pyramid admin user password
-    password: "admin"
+    # The name of the database to create
+    database: "pyramid"
+    # The username for the database user authentication
+    dbUser: "postgres"
+    # The database user's password
+    dbPass: "admin"
+    # Specify "on" for enforcing ssl over the database connection, or "off" otherwise.
+    enforceDbSsl: "off"
+    # The name of the initial (admin) user created in the pyramid system
+    firstUser: "admin"
+    # The password to use for the initial user
+    firstUserPass: "admin"
+    # The type of the storage to use for the pyramid filesystem repository
+    # Applicable values are:
+    # "PersistentVolume" - Kubernetes managed persistent volume
+    # "AWSS3" - AWS S3 Bucket
+    # "AzureBlob" - Azure Blob Storage
+    # "FTP" - FTP based storage
+    # "SFTP" - SSH File Transfer Protocol Storage
+    # "NFS" - Mounted File System
+    storageType: "PersistentVolume"
+
+    # If storageType is "FTP"/"SFTP" - specify the IP/hostname of the storage server
+    storageHostName: "ip-or-fqdn"
+    # If storageType is "FTP"/"SFTP" - specify the port of the storage server
+    storagePort: 0
+    # If storageType is "FTP"/"SFTP" - specify the username of the storage
+    storageUserName: "storageUser"
+    # If storageType is "FTP"/"SFTP" - specify the password of the storage
+    storagePassword: "storagePassword"
+    # If storageType is "FTP"/"SFTP"/"NFS" - specify the path to the storage folder
+    storageFolder: "/path/to/storage/directory"
+
+    # If storageType is "AWSS3" - Specify the region id of the S3 Bucket
+    regionId: "eu-central-1"
+    # If storageType is "AWSS3" - Specify the access Key id for the S3 Bucket, or "iam" to use IAM role
+    # To use an AWS IAM role, set awsAccessKeyId: "iam" after configuring a role on AWS. In this case you do not need to set awsSecretAccessKey.
+    awsAccessKeyId: "awsAccessKeyId"
+    # If storageType is "AWSS3" - Specify the secret key for the S3 bucket
+    awsSecretAccessKey: "awsSecretAccessKey"
+    # If storageType is "AWSS3" - Specify the name of the S3 bucket
+    awsBucket: "bucket-name"
+
+    # If storageType is "AzureBlob" - Specify the account name of the azure blob
+    azureBlobAccountName: "accountName"
+    # If storageType is "AzureBlob" - Specify the account key of the azure blob
+    azureBlobAccountKey: "accountKey"
+    # If storageType is "AzureBlob" - Specify the account container of the azure blob
+    azureContainer: "container"
+    # The text content of the pyramid license. Can be used to initialize the system with a license.
+    # If the field is not specified, the license can instead be uploaded to the system after installation.
+    license: "licenseTextContent"
+
+# Persistent storage configured for applicable pods.
 storage:
-  #type of local storage, valid values are GoogleStore, NFS and other (FTP, S3 and Azure Blob) which should be configured at the web UI
+  # Type of persistent storage.
+  # Applicable values are: GoogleStore, NFS, other
+  # GoogleStore/NFS - define a PersistentVolume resource.
+  # other - Defines external storage options (such as FTP/AWS S3/Azure Blob), which are configured via the WEB UI installation or the unattended installation.
   type: other
+  # When type is set to GoogleStore/NFS: specify the size of the PersistentVolume.
   size: "10Gi"
-  #settings for NFS server, needed only if NFS was chosen
+  # When type is set to NFS, specify the following section.
   nfs:
+    # The path the storage folder on the NFS server
     path: "/"
+    # The address of the NFS server
     ip: "0.0.0.0"
 #ws is the web server which handle http networking and authentication
 ws:
@@ -48,16 +102,17 @@ ws:
     cpu: "2000m"
     ephemeral_storage: "2Gi"
   limits:
-    #you can increse those values to better match your nodes, the WS main limitation is IO
+    #you can increase those values to better match your nodes, the WS main limitation is IO
     memory: "2000Mi"
     cpu: "2000m"
     ephemeral_storage: "4Gi"
 
   kedaAutoscaling:
-    #if enabled will use keda to auto-scale based on active requests
-    enabled: true
+    #if enabled will use Keda to auto-scale based on active requests
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
+    # An average number of requests per web server before scaling
     threshold: 180
 
 #rtr router is the core of request routing, deciding where to send the request
@@ -69,7 +124,7 @@ rtr:
     memory: "1000Mi"
     cpu: "2000m"
   limits:
-  #you can increse those values to better match your nodes, but normally there shouldn't be a need for it
+  #you can increase those values to better match your nodes, but normally there shouldn't be a need for it
     memory: "1000Mi"
     cpu: "3000m"
 
@@ -80,7 +135,7 @@ rte:
     memory: "4000Mi"
     cpu: "2000m"
   limits:
-  #you can increse those values to better match your nodes, based on system usage the RTE can be very cpu heavy
+  #you can increase those values to better match your nodes, based on system usage the RTE can be very cpu heavy
     memory: "8000Mi"
     cpu: "4000m"
   #how many replicates do you want, the system will do it's best to use all of them equally 
@@ -89,11 +144,31 @@ rte:
   satellites: 2
   #in the event of a high cpu usage the autoscale will add another RTE server
   autoscaling:
-    enabled: true
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    # Average cpu usage (percentage) across all RTE pods before scaling
+    targetCpuUtilization: 70
+
+#nlp is the nlp engine, the service responsible for the chatbot function in the discover app
+nlp:
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "4000Mi"
+    cpu: "2000m"
+  limits:
+    #you can increase those values to better match your nodes, based on system usage the nlp can be very cpu heavy
+    memory: "8000Mi"
+    cpu: "4000m"
+  #how many replicates do you want, the system will do it's best to use all of them equally
+  replicas: 1
+  #in the event of a high cpu usage the autoscale will add another nlp server
+  autoscaling:
+    enabled: false
     minReplicas: 1
     maxReplicas: 5
     targetCpuUtilization: 70
-    scaleDownDuration: 10
+
 
 #te is the Task engine, handles ETLs and prints
 te:
@@ -103,10 +178,11 @@ te:
     cpu: "4000m"
     ephemeral_storage: "3Gi"
   limits:
-  #you can increse those values to better match your nodes, based on system usage the TE can be CPU heavy and memory heavy
+  #you can increase those values to better match your nodes, based on system usage the TE can be CPU heavy and memory heavy
     memory: "8000Mi"
     cpu: "8000m"
     ephemeral_storage: "10Gi"
+  # After the first termination message is sent to pod, it is given this amount of time in seconds before it's forcefully deleted
   terminationGracePeriodSeconds: 300
   replicas: 1
   #satellites are used to run ETL tasks
@@ -119,8 +195,6 @@ te:
     enabled: false
     minReplicas: 1
     maxReplicas: 5
-    threshold: 100
-    scaleDownDuration: 10
 #ai is the artificial intelligence server which host all Python and R script handling
 ai:
   requests:
@@ -129,7 +203,7 @@ ai:
     cpu: "4000m"
     ephemeral_storage: "3Gi"
   limits:
-  #you can increse those values to better match your nodes, based on system usage the AI can be very cpu heavy
+  #you can increase those values to better match your nodes, based on system usage the AI can be very cpu heavy
     memory: "8000Mi"
     cpu: "8000m"
     ephemeral_storage: "5Gi"
@@ -141,7 +215,7 @@ ai:
     maxReplicas: 5
     targetCpuUtilization: 70
 #GIS is the GeoSpatial server handles mapping data for queris, can be disabled if not in use
-#dose not support handling of more then 1 instance
+#supports only 1 replica
 gis:
   enabled: true
   requests:
@@ -149,6 +223,6 @@ gis:
     memory: "2000Mi"
     cpu: "1000m"
   limits:
-    #you can increse those values to better match your nodes, but normally there shouldn't be a need for it
+    #you can increase those values to better match your nodes, but normally there shouldn't be a need for it
     memory: "2000Mi"
     cpu: "2000m"

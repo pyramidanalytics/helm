@@ -5,5 +5,5 @@ metadata:
   name: unattended-installation
   namespace: {{ .Release.Namespace }}
 stringData:
-  json: '{"repoType":{{ .Values.unattended.database.repoType }},"serverType":"{{ .Values.unattended.database.type }}","serverAddress":"{{ .Values.unattended.database.address }}","port":"{{ .Values.unattended.database.port }}","createDB":"{{ .Values.unattended.database.createDB }}","database":"{{ .Values.unattended.database.database }}","dbUser":"{{ .Values.unattended.database.user }}","dbPass":"{{ .Values.unattended.database.password }}","storageType":"{{ .Values.unattended.storage.type }}","firstUser":"{{ .Values.unattended.adminUser.name }}","firstUserPass":"{{ .Values.unattended.adminUser.password }}"}'
+{{- include "pyramidAnalytics.unattended.json" . | nindent 2 }}
 {{- end }}

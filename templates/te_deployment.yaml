@@ -20,7 +20,7 @@ spec:
       containers:
         - name: pate
           image: "{{ .Values.repo }}/te:{{ .Chart.AppVersion }}"
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           
           readinessProbe:
             exec:
@@ -49,5 +49,7 @@ spec:
             - name: printer_count
               value: "{{.Values.te.printers}}"
 {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
 {{- include "pyramidAnalytics.mount" . | nindent 6 }}
 {{- include "pyramidAnalytics.volume" . | nindent 6 }}
+{{- include "pyramidAnalytics.podSecurityContext" . | nindent 6 }}

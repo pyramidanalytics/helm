@@ -33,5 +33,7 @@ spec:
               cpu: "{{ .Values.gis.requests.cpu }}"
               memory: "{{ .Values.gis.requests.memory }}"
           env:
-          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
+{{- include "pyramidAnalytics.podSecurityContext" . | nindent 6 }}
 {{- end }}

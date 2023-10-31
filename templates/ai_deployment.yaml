@@ -42,5 +42,7 @@ spec:
                   ]
           env:
 {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
 {{- include "pyramidAnalytics.mount" . | nindent 6 }}
 {{- include "pyramidAnalytics.volume" . | nindent 6 }}
+{{- include "pyramidAnalytics.podSecurityContext" . | nindent 6 }}

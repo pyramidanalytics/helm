@@ -1,53 +1,74 @@
-# Helm Charts for Pyramid Analytics on Kubernetes
-The Pyramid Decision Intelligence Platform is a frictionless, integrated, no-code, AI-driven platform that combines data prep, data science, and business analytics capabilities. Everyone can self-serve by directly accessing multiple data sources across their environment with a tailored experience. The analytics stack is simplified and less complex, with a lower total cost of ownership.
+# Install Pyramid using HELM
 
-This Helm chart enables the installation of the Pyramid Platform on a Kubernetes cluster.
-Alternatively, you can also perform the installing using the yaml generator at the [official pyramid site](https://customers.pyramidanalytics.com/kubernetes/).
+Use Helm charts to enable the installation of the Pyramid Platform on a Kubernetes cluster.
 
-## Basic Installation
-First, run the following command to install Keda to support the automatic scaling of [Task Services](https://help.pyramidanalytics.com/Content/Root/AdminClient/Servers/Task%20Engine.htm) and [Web Server](https://help.pyramidanalytics.com/Content/Root/AdminClient/Servers/Web%20Servers.htm):
+## Basic HELM Installation
 
-    helm repo add kedacore https://kedacore.github.io/charts
-	helm install keda kedacore/keda --namespace keda --create-namespace
+### Step 1 - Prerequisites
 
-To support [Run Time Services](https://help.pyramidanalytics.com/Content/Root/AdminClient/Servers/Run%20Time%20Engine.htm) and artificial intelligence services automatic scaling, run the following command, which installs the Metrics server:
+Before you install Pyramid itself, you should install the auto-scaling tools:
 
-*Note: This step shouldn't be performed when installing on GCP, since the kubernetes engine on GCP comes pre-installed with the Metrics Server.
-
-
-    helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/
-    helm install my-metrics-server metrics-server/metrics-server --version 3.9.0
-
-Finally, install Pyramid by running:
-
-    helm repo add pyramid https://pyramidanalytics.github.io/helm/
-    helm install pyramid pyramid/pyramidanalytics
-	
-To install older versions use
-	
-    helm install pyramid pyramid/pyramidanalytics --version 2020.27.135
+1. First, run the following command to install Keda. Keda supports automatic scaling for Task Services and the Web Server:
     
-This will install in the default namespace. To install in a different namespace, use the following command:
+    `helm repo add kedacore https://kedacore.github.io/charts`
+    
+    `helm repo update kedacore`
 
-    helm install pyramid pyramid/pyramidanalytics --namespace=pyramid --create-namespace
+    `helm install keda kedacore/keda --namespace keda --create-namespace`
 
-## Customization 
-To fine-tune Pyramid, you can tweak different settings, such as:
- - The number of pod for each service 
- - Disable scaling for each service or set scaling metrics
- - Min and max memory and CPU
- - Ephemeral storage min and max for each service
- - Persistence storage sizes and target
- - Unattended installation
+2. Run the following commands to install the Metrics server. Metrics server supports automatic scaling.
 
-To change those values and more details refer to the [values yaml](https://pyramidanalytics.github.io/helm/values.yaml)
-This file should be downloaded, and its values should be edited as you see fit, then run the following command to apply the changes:
+    Note: This step should NOT be performed when installing on GCP, since the Kubernetes engine on GCP comes pre-installed with the Metrics Server.
 
-    helm install f .\values.yaml pyramid pyramid/pyramidanalytics
+    `helm repo add metrics-server https://kubernetes-sigs.github.io/metrics-server/`
 
-For example, to disable the auto scaling of the Task Service, edit under `te -> kedaAutoscaling -> enabled` and set it to false:
+    `helm repo update metrics-server`
 
-    te:
-      ...snip...
-      kedaAutoscaling:
-        enabled: false
+    `helm install my-metrics-server metrics-server/metrics-server --version 3.9.0`
+
+### Step 2 - Customize your installation configuration file (values.yaml)
+You may need to fine-tune Pyramid by tweaking different settings in the HELM configuration (values.yaml). These changes affect:
+- The number of pods for each service.
+- The auto-scaling settings for each service, including scaling metrics.
+- The minimum and maximum memory, ephemeral storage, and CPU settings for each service.
+- The persistent storage sizes and target.
+- The settings that allow an unattended installation, if required.
+
+To configure HELM:
+
+1. Download the file values.yaml from Github.
+    
+    This file contains some default configuration options for your installation.
+
+2. Check that the values.yaml configuration is accurate for your Pyramid installation and update it as required.
+
+    For reference information about the configuration options that you might want to add, see:
+
+   - [Configuration for an unattended installation](Ref_HelmAttrs.md).
+   - [Configuration for a HELM installation](Ref_HelmUnattendedAttrs.md).
+
+3. Save your changes.
+
+### Step 3 - Install Pyramid
+Finally, install Pyramid by adding the Pyramid repo and then running the appropriate `install` command:
+
+1. Add the Pyramid repo. Run the following commands:
+
+    `helm repo add pyramid https://pyramidanalytics.github.io/helm/`
+
+    `helm repo update pyramid`
+
+2. Run the appropriate installation command:
+
+    a. If you did not edit values.yaml and you want to install to the default namespace, run:
+
+    `helm install pyramid pyramid/pyramidanalytics`
+
+   b. If you did not edit values.yaml and you want to install in a different namespace, run:
+
+    `helm install pyramid pyramid/pyramidanalytics --namespace=pyramid --create-namespace`
+
+    c. If you updated your configuration values in values.yaml, run:
+
+    `helm install -f .\values.yaml pyramid pyramid/pyramidanalytics`
+

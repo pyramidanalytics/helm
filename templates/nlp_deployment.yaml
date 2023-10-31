@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-service
+  name: nlp-service
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "pyramidAnalytics.labels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: paws
-  replicas: {{.Values.ws.replicas}}
+      app: panlp
+  replicas: {{.Values.nlp.replicas}}
   template:
     metadata:
       labels:
-        app: paws
+        app: panlp
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: paws
-          image: "{{ .Values.repo }}/ws:{{ .Chart.AppVersion }}"
+        - name: panlp
+          image: "{{ .Values.repo }}/nlp:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           readinessProbe:
             exec:
@@ -26,24 +26,20 @@ spec:
                 - ./readiness.sh
           resources:
             limits:
-              cpu: "{{ .Values.ws.limits.cpu }}"
-              memory: "{{ .Values.ws.limits.memory }}"
-              ephemeral-storage: "{{ .Values.ws.limits.ephemeral_storage }}"
+              cpu: "{{ .Values.nlp.limits.cpu }}"
+              memory: "{{ .Values.nlp.limits.memory }}"
             requests:
-              cpu: "{{ .Values.ws.requests.cpu }}"
-              memory: "{{ .Values.ws.requests.memory }}"
-              ephemeral-storage: "{{ .Values.ws.requests.ephemeral_storage }}"
+              cpu: "{{ .Values.nlp.requests.cpu }}"
+              memory: "{{ .Values.nlp.requests.memory }}"
           lifecycle:
             preStop:
               exec:
                 command:
                   [
-                     "./stop_main_processes.sh"
+                    "./stop_main_processes.sh"
                   ]
           env:
 {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
-          ports:
-            - containerPort: 8181
 {{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
 {{- include "pyramidAnalytics.mount" . | nindent 6 }}
 {{- include "pyramidAnalytics.volume" . | nindent 6 }}

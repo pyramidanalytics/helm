@@ -19,7 +19,7 @@ spec:
       containers:
         - name: partr
           image: "{{ .Values.repo }}/rtr:{{ .Chart.AppVersion }}"
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           readinessProbe:
             exec:
               command:
@@ -39,4 +39,6 @@ spec:
                     "./stop_main_processes.sh"
                   ]
           env:
-          {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
+{{- include "pyramidAnalytics.podSecurityContext" . | nindent 6 }}

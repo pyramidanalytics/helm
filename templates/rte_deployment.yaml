@@ -19,7 +19,7 @@ spec:
       containers:
         - name: parte
           image: "{{ .Values.repo }}/rte:{{ .Chart.AppVersion }}"
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           readinessProbe:
             exec:
               command:
@@ -42,5 +42,7 @@ spec:
             - name: satellite_count
               value: "{{.Values.rte.satellites}}"
 {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
 {{- include "pyramidAnalytics.mount" . | nindent 6 }}
 {{- include "pyramidAnalytics.volume" . | nindent 6 }}
+{{- include "pyramidAnalytics.podSecurityContext" . | nindent 6 }}

@@ -66,6 +66,19 @@ app.kubernetes.io/instance: {{ .Release.Name }}
       fieldPath: metadata.namespace
 {{- end }}
 
+
+{{- define "pyramidAnalytics.podSecurityContext" -}}
+  securityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+{{- end }}
+
+{{- define "pyramidAnalytics.containerSecurityContext" -}}
+  securityContext:
+    allowPrivilegeEscalation: false
+{{- end }}
+
 {{- define "pyramidAnalytics.mount" -}}
 {{- if (not (eq "other" $.Values.storage.type)) }}
     volumeMounts:
@@ -80,5 +93,14 @@ volumes:
 - name: persistent-storage
   persistentVolumeClaim:
     claimName: pyramid-storage-pvc
+{{- end }}
+{{- end }}
+
+{{- define "pyramidAnalytics.unattended.json" -}}
+{{- if .Values.unattended.enabled -}}
+{{- /* Render the json field for unattended installation by converting .Values.unattended.installationData to json */ -}}
+{{- with $dict := deepCopy .Values.unattended.installationData -}}
+json: '{{ $dict | toJson }}'
+{{- end }}
 {{- end }}
 {{- end }}
