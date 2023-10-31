@@ -2,7 +2,7 @@
 
 The following Pyramid services configuration should be added to values.yaml to enable a HELM install.
 
-For more information, see [Install Pyramid using HELM](README.md).
+For more information, see [Install Pyramid using HELM](readme.md).
 
 ## Fields and values
 ### Docker Settings:
