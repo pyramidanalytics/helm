@@ -5,12 +5,14 @@ The following Pyramid services configuration should be added to values.yaml to e
 For more information, see [Install Pyramid using HELM](readme.md).
 
 ## Fields and values
+
 ### Docker Settings:
-- **repo*** : The Docker registry to pull the images from.
-- **imagePullPolicy*** : The policy to use when pulling images from the Docker registry. By default, this is "ifNotPresent", indicating that images should only be pulled if they are not already present locally.
+- **repo** : The Docker registry to pull the images from.
+- **imagePullPolicy** : The policy to use when pulling images from the Docker registry. By default, this is "ifNotPresent", indicating that images should only be pulled if they are not already present locally.
+
 ### Attendance:
-- **unattended*** : Where applicable, the details for the unattended install.
-  - **enabled*** : Indicates whether the installation should run in the unattended mode or not:
+- **unattended** : Where applicable, the details for the unattended install.
+  - **enabled** : Indicates whether the installation should run in the unattended mode or not:
     - If "false", the installation will be "attended". In this case, there is no "installationData" block. Instead, the Installation UI opens for you to enter your installation settings.
     - If "true", the installation will be "unattended". In this case, you also need to add the sibling "installationData" block for your installation settings (the database and storage settings to enable the unattended installation).
 
@@ -19,6 +21,7 @@ For more information, see [Install Pyramid using HELM](readme.md).
     - **type**: Type of local storage. Can be one of "GoogleStore", "NFS", or "other". The value "other" indicates that local storage is not used, and FTP, S3, or Azure Blob is used instead. In this case, the storage should be configured in the web UI or in the unattended installation configuration.
       - **size**: Minimum size of local storage. Not required for type "other".
       - **nfs**: NFS server settings, only required if the type is NFS. The path and ip attributes describe where the storage is available.
+
 ### Service settings
 In addition to the preceding details, it is also necessary to provision initialization settings for each of the services. Each block of settings is as follows:
 
@@ -35,6 +38,7 @@ The Web server handles HTTP networking and authentication.
     - **minReplicas**: The minimum number of replicas for this service. Note: Auto-scaling will never reduce the number of pods below this number.
     - **maxReplicas**: The maximum number of replicas for this service. Note: Auto-scaling will never increase the number of pods above this number.
     - **threshold**: The number of active requests that the server can handle before the auto-scaling threshold is met. If maxReplicas has not been met, meeting this threshold causes a new replica to be added.
+
 #### Request routing
 The Request routing service decides where to send requests.
 

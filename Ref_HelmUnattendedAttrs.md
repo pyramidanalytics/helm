@@ -6,11 +6,12 @@ For more information, see [Install Pyramid using HELM](readme.md).
 
 ## Fields and values
 ### Docker Settings:
-- **repo*** : The Docker registry to pull the images from.
-- **imagePullPolicy*** : The policy to use when pulling images from the Docker registry. By default, this is "ifNotPresent", indicating that images should only be pulled if they are not already present locally.
+- **repo** : The Docker registry to pull the images from.
+- **imagePullPolicy** : The policy to use when pulling images from the Docker registry. By default, this is "ifNotPresent", indicating that images should only be pulled if they are not already present locally.
+
 ### Attendance:
-- **unattended*** : Where applicable, the details for the unattended install.
-  - **enabled*** : Indicates whether the installation should run in the unattended mode or not:
+- **unattended** : Where applicable, the details for the unattended install.
+  - **enabled** : Indicates whether the installation should run in the unattended mode or not:
     - If "false", the installation will be "attended". In this case, there is no "installationData" block. Instead, the Installation UI opens for you to enter your installation settings.
     - If "true", the installation will be "unattended". In this case, you also need to add the sibling "installationData" block for your installation settings (the database and storage settings that enable the unattended installation).
     
@@ -23,17 +24,17 @@ The installationData block contains the database and storage settings required t
   - **repoType** :
     - If "existing", the database server should contain an existing (previously installed) Pyramid database.
     - If "native" or "rds", a new Pyramid database schema will be created in the provided database.
-  - **serverType*** : The database server type, either SqlServer or Postgresql.
-  - **serverAddress*** : The database server address, either IP or FQDN.
-  - **port*** : The database server port number.
-  - **database*** : The database name.
-  - **dbUser*** : The user name for connecting the database.
-  - **dbPass*** : The user's password.
-  - **enforceDbSsl*** : Specify "on" to enforce SSL over the database connection, or "off" otherwise.
-  - **firstUser*** :The user name of the first Pyramid admin user.
-  - **firstUserPass*** : The password of the first Pyramid admin user (this can be changed later from inside the app).
+  - **serverType** : The database server type, either SqlServer or Postgresql.
+  - **serverAddress** : The database server address, either IP or FQDN.
+  - **port** : The database server port number.
+  - **database** : The database name.
+  - **dbUser** : The user name for connecting the database.
+  - **dbPass** : The user's password.
+  - **enforceDbSsl** : Specify "on" to enforce SSL over the database connection, or "off" otherwise.
+  - **firstUser** :The user name of the first Pyramid admin user.
+  - **firstUserPass** : The password of the first Pyramid admin user (this can be changed later from inside the app).
   - **license**: The text content of a Pyramid license file. Use this to seed the license key into the deployment directly. The license file can also be uploaded after installation.
-  - **storageType*** : The preferred persistent file storage method. One of: AWSS3, AzureBlob, PersistentVolume, FTP, SFTP, or NFS.
+  - **storageType** : The preferred persistent file storage method. One of: AWSS3, AzureBlob, PersistentVolume, FTP, SFTP, or NFS.
 
 ### Storage Fields:
 
