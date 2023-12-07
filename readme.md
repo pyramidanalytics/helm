@@ -44,8 +44,9 @@ To configure HELM:
 
     For reference information about the configuration options that you might want to add, see:
 
-   - [Configuration for an unattended installation](Ref_HelmAttrs.md).
-   - [Configuration for a HELM installation](Ref_HelmUnattendedAttrs.md).
+   - [Configuration for a HELM installation](https://help.pyramidanalytics.com/Content/Root/Guides/installation/Kubernetes/helm/Ref_Installation_HELM.htm).
+   - [Configuration for an unattended installation](https://help.pyramidanalytics.com/Content/Root/Guides/installation/Kubernetes/helm/Ref_Installation_Unattended.htm).
+   
 
 3. Save your changes.
 

@@ -22,5 +22,5 @@ volumeBindingMode: Immediate
 allowVolumeExpansion: true
 parameters:
   tier: standard
-  network: default
+  network: {{ $.Values.storage.GoogleStore.network }}
 {{- end }}

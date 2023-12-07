@@ -8,8 +8,13 @@ unattended:
   installationData:
     # The type of pyramid database used for installation.
     # If provided as "existing" - the database server should contain an existing (previously installed) Pyramid database.
-    # If provided as "native" or "rds", a new pyramid database schema will be created in the provided database.
-    repoType: "native"
+    # If provided as "new", a new pyramid database schema will be created in the provided database.
+    installationType: "new"
+    # 0 - Native installation - self provided database server
+    # 1 - AWS RDS
+    # 2 - Azure Managed Database
+    # 3 - GCP Cloud SQL
+    dbLocation: 0
     # The type of database server into which the pyramid database is installed.
     # "SqlServer" - Microsoft SQL Server
     # "Postgresql" - PostgreSQL
@@ -27,13 +32,17 @@ unattended:
     # The username for the database user authentication
     dbUser: "postgres"
     # The database user's password
-    dbPass: "admin"
+    dbPass: "<password>"
     # Specify "on" for enforcing ssl over the database connection, or "off" otherwise.
     enforceDbSsl: "off"
+    #When using encrypted database, you can upload your own Certificate using this field, it's optional, base64 encoded zip file
+    dbSslRootCert: ""
+    #Use fips compatible encryption algorithms, this will disable some of the product functionality
+    fips: false
     # The name of the initial (admin) user created in the pyramid system
     firstUser: "admin"
     # The password to use for the initial user
-    firstUserPass: "admin"
+    firstUserPass: "<password>"
     # The type of the storage to use for the pyramid filesystem repository
     # Applicable values are:
     # "PersistentVolume" - Kubernetes managed persistent volume
@@ -82,18 +91,23 @@ storage:
   # GoogleStore/NFS - define a PersistentVolume resource.
   # other - Defines external storage options (such as FTP/AWS S3/Azure Blob), which are configured via the WEB UI installation or the unattended installation.
   type: other
-  # When type is set to GoogleStore/NFS: specify the size of the PersistentVolume.
+  # When type is set to GoogleStore/NFS: specify the size of the PersistentVolume and the relevant section
   size: "10Gi"
-  # When type is set to NFS, specify the following section.
+  # When type is set to NFS, update the following section.
   nfs:
     # The path the storage folder on the NFS server
     path: "/"
     # The address of the NFS server
     ip: "0.0.0.0"
+  
+  # GoogleStore is file store on GCP,  update the following section.
+  GoogleStore:
+    #This parameter specifies the VPC network that the Filestore instance will be created on.
+    network: default
 #ws is the web server which handle http networking and authentication
 ws:
   #defult port for your ws, match this with your ingress
-  port: 8282
+  port: 8181
   #how many ws would you want
   replicas: 1
   requests:
@@ -104,7 +118,7 @@ ws:
   limits:
     #you can increase those values to better match your nodes, the WS main limitation is IO
     memory: "2000Mi"
-    cpu: "2000m"
+    cpu: "16000m"
     ephemeral_storage: "4Gi"
 
   kedaAutoscaling:
@@ -122,11 +136,11 @@ rtr:
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "1000Mi"
-    cpu: "2000m"
+    cpu: "1000m"
   limits:
   #you can increase those values to better match your nodes, but normally there shouldn't be a need for it
     memory: "1000Mi"
-    cpu: "3000m"
+    cpu: "4000m"
 
 #rte is the runtime engine, the core of the application which handles all active requests, queries and CMS
 rte:
@@ -137,11 +151,11 @@ rte:
   limits:
   #you can increase those values to better match your nodes, based on system usage the RTE can be very cpu heavy
     memory: "8000Mi"
-    cpu: "4000m"
+    cpu: "8000m"
   #how many replicates do you want, the system will do it's best to use all of them equally 
   replicas: 1
   #satellties are used to preview ETL results
-  satellites: 2
+  satellites: 3
   #in the event of a high cpu usage the autoscale will add another RTE server
   autoscaling:
     enabled: false
@@ -169,6 +183,24 @@ nlp:
     maxReplicas: 5
     targetCpuUtilization: 70
 
+#solve is the solver engine, a service which runs the solve requests
+solve:
+  requests:
+    #minimal amount of memory guaranteed, you can add here but don't reduce
+    memory: "4000Mi"
+    cpu: "2000m"
+  limits:
+    #you can increase those values to better match your nodes, based on system usage the solve can be very cpu heavy
+    memory: "8000Mi"
+    cpu: "4000m"
+  #how many replicates do you want, the system will do it's best to use all of them equally 
+  replicas: 1
+  #in the event of a high cpu usage the autoscaler will add another solve server
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 5
+    targetCpuUtilization: 70
 
 #te is the Task engine, handles ETLs and prints
 te:
@@ -179,16 +211,16 @@ te:
     ephemeral_storage: "3Gi"
   limits:
   #you can increase those values to better match your nodes, based on system usage the TE can be CPU heavy and memory heavy
-    memory: "8000Mi"
-    cpu: "8000m"
+    memory: "16000Mi"
+    cpu: "16000m"
     ephemeral_storage: "10Gi"
   # After the first termination message is sent to pod, it is given this amount of time in seconds before it's forcefully deleted
   terminationGracePeriodSeconds: 300
   replicas: 1
   #satellites are used to run ETL tasks
-  satellites: 2
-  #printers are used to print to PDF, Power Point, Word, excel, HTML and PNG
-  printers: 2
+  satellites: 3
+  #printers are used to export printing result to PDF, Power Point, Word, excel, HTML to and a few
+  printers: 3
 
   #in the event of a long queue in the task engine the autoscale will add another TE server
   kedaAutoscaling:
@@ -204,8 +236,8 @@ ai:
     ephemeral_storage: "3Gi"
   limits:
   #you can increase those values to better match your nodes, based on system usage the AI can be very cpu heavy
-    memory: "8000Mi"
-    cpu: "8000m"
+    memory: "16000Mi"
+    cpu: "16000m"
     ephemeral_storage: "5Gi"
   replicas: 1
   satellites: 2
@@ -220,9 +252,9 @@ gis:
   enabled: true
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
-    memory: "2000Mi"
-    cpu: "1000m"
+    memory: "500Mi"
+    cpu: "500m"
   limits:
     #you can increase those values to better match your nodes, but normally there shouldn't be a need for it
-    memory: "2000Mi"
-    cpu: "2000m"
+    memory: "1500Mi"
+    cpu: "1500m"

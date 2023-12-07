@@ -72,6 +72,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
     runAsNonRoot: true
     runAsUser: 1000
     runAsGroup: 1000
+    fsGroup: 1000
 {{- end }}
 
 {{- define "pyramidAnalytics.containerSecurityContext" -}}

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: solve-service
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: pasolve
+  replicas: {{.Values.solve.replicas}}
+  template:
+    metadata:
+      labels:
+        app: pasolve
+        {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: pasolve
+          image: "{{ .Values.repo }}/solve:{{ .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
+          readinessProbe:
+            exec:
+              command:
+                - ./readiness.sh
+          resources:
+            limits:
+              cpu: "{{ .Values.solve.limits.cpu }}"
+              memory: "{{ .Values.solve.limits.memory }}"
+            requests:
+              cpu: "{{ .Values.solve.requests.cpu }}"
+              memory: "{{ .Values.solve.requests.memory }}"
+          lifecycle:
+            preStop:
+              exec:
+                command:
+                  [
+                    "./stop_main_processes.sh"
+                  ]
+          env:
+{{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
+{{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
+{{- include "pyramidAnalytics.mount" . | nindent 6 }}
+{{- include "pyramidAnalytics.volume" . | nindent 6 }}
+{{- include "pyramidAnalytics.podSecurityContext" . | nindent 6 }}
