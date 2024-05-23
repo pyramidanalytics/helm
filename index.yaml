@@ -2,10 +2,10 @@ apiVersion: v1
 entries:
   pyramidanalytics:
   - apiVersion: v2
-    appVersion: 2023.12.178
-    created: "2024-05-06T16:46:30.4881562+03:00"
+    appVersion: 2023.12.181
+    created: "2024-05-23T17:41:21.185113+03:00"
     description: A Helm chart for PyramidAnalytics Kubernetes solution
-    digest: 4ff5666c64932f1fcb3c9bb4975cfbfbfa46161af7e367c51fd45eb8621e9fca
+    digest: 51d0678ae8d024915ede195edab3031474117372becd3322bf4a67057dc94ec5
     name: pyramidanalytics
     type: application
     urls:

@@ -4,5 +4,5 @@ description: A Helm chart for PyramidAnalytics Kubernetes solution
 
 type: application
 
-version: 2023.12.178
-appVersion: "2023.12.178"
+version: 2023.12.181
+appVersion: "2023.12.181"
