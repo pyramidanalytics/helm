@@ -241,6 +241,8 @@ ai:
     ephemeral_storage: "5Gi"
   replicas: 1
   satellites: 2
+  #full flag makes the system use AIF Docker image with pre-installed Python libraries, designed for offline use.
+  full: false
   autoscaling:
     enabled: false
     minReplicas: 1

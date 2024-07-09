@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: paai
-          image: "{{ .Values.repo }}/ai:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.repo }}/{{ if .Values.ai.full }}aif{{ else }}ai{{ end }}:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           readinessProbe:
             exec:
