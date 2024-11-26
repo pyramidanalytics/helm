@@ -16,6 +16,7 @@ spec:
         app: paai
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: pa-service
       containers:
         - name: paai
           image: "{{ .Values.repo }}/{{ if .Values.ai.full }}aif{{ else }}ai{{ end }}:{{ .Chart.AppVersion }}"

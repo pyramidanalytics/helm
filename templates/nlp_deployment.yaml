@@ -16,6 +16,7 @@ spec:
         app: panlp
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: pa-service
       containers:
         - name: panlp
           image: "{{ .Values.repo }}/nlp:{{ .Chart.AppVersion }}"

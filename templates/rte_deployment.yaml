@@ -16,6 +16,7 @@ spec:
         app: parte
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: pa-service
       containers:
         - name: parte
           image: "{{ .Values.repo }}/rte:{{ .Chart.AppVersion }}"

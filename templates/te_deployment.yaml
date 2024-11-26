@@ -16,6 +16,7 @@ spec:
         app: pate
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: pa-service
       terminationGracePeriodSeconds: {{ .Values.te.terminationGracePeriodSeconds }}
       containers:
         - name: pate

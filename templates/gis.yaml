@@ -16,6 +16,7 @@ spec:
         app: pagis
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: pa-service
       containers:
         - name: pagis
           image: "{{ .Values.repo }}/gis:{{ .Chart.AppVersion }}"
