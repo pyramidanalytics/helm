@@ -155,7 +155,7 @@ rte:
   #how many replicates do you want, the system will do it's best to use all of them equally 
   replicas: 1
   #satellties are used to preview ETL results
-  satellites: 3
+  satellites: 1
   #in the event of a high cpu usage the autoscale will add another RTE server
   autoscaling:
     enabled: false
@@ -163,6 +163,8 @@ rte:
     maxReplicas: 5
     # Average cpu usage (percentage) across all RTE pods before scaling
     targetCpuUtilization: 70
+    # Average memory usage (percentage) across all RTE pods before scaling
+    targetMemoryUtilization: 75
 
 #nlp is the nlp engine, the service responsible for the chatbot function in the discover app
 nlp:
@@ -182,6 +184,7 @@ nlp:
     minReplicas: 1
     maxReplicas: 5
     targetCpuUtilization: 70
+    targetMemoryUtilization: 75
 
 #solve is the solver engine, a service which runs the solve requests
 solve:
@@ -201,6 +204,7 @@ solve:
     minReplicas: 1
     maxReplicas: 5
     targetCpuUtilization: 70
+    targetMemoryUtilization: 75
 
 #te is the Task engine, handles ETLs and prints
 te:
@@ -240,7 +244,6 @@ ai:
     cpu: "16000m"
     ephemeral_storage: "5Gi"
   replicas: 1
-  satellites: 2
   #full flag makes the system use AIF Docker image with pre-installed Python libraries, designed for offline use.
   full: false
   autoscaling:
@@ -248,6 +251,7 @@ ai:
     minReplicas: 1
     maxReplicas: 5
     targetCpuUtilization: 70
+    targetMemoryUtilization: 75
 #GIS is the GeoSpatial server handles mapping data for queris, can be disabled if not in use
 #supports only 1 replica
 gis:

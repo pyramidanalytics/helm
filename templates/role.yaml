@@ -1,31 +1,29 @@
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
-metadata:
-  name: pyramid-role-binding
-  namespace: {{ .Release.Namespace }}
-subjects:
-  - kind: ServiceAccount
-    name: pa-service
-    namespace: {{ .Release.Namespace }}
-roleRef:
-  kind: Role
-  name: pyramid-secrets-role
-  apiGroup: rbac.authorization.k8s.io
----
-apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  name: pyramid-secrets-role
+  name: base-role
   namespace: {{ .Release.Namespace }}
   labels:
     {{- include "pyramidAnalytics.labels" . | nindent 4 }}
 rules:
   - apiGroups: [""]
     resources: ["secrets"]
-    verbs: ["get", "watch", "list", "update", "create"]
+    verbs: ["get"]
   - apiGroups: [""]
-    resources: ["pods"]
-    verbs: ["list","get"]
+    resources: [ "pods","persistentvolumeclaims" ]
+    verbs: [ "get","list" ]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: installer-role
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "pyramidAnalytics.labels" . | nindent 4 }}
+rules:
+  - apiGroups: [""]
+    resources: ["secrets"]
+    verbs: ["update", "create"]
 ---
 apiVersion: v1
 kind: ServiceAccount

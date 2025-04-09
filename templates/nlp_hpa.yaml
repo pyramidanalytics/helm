@@ -18,4 +18,10 @@ spec:
         target:
           type: Utilization
           averageUtilization: {{.Values.nlp.autoscaling.targetCpuUtilization}}
+    - type: Resource
+      resource:
+        name: memory
+        target:
+          type: Utilization
+          averageUtilization: {{.Values.nlp.autoscaling.targetMemoryUtilization}}
 {{- end }}

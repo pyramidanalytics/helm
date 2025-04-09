@@ -66,6 +66,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
       fieldPath: metadata.namespace
 {{- end }}
 
+
 {{- define "pyramidAnalytics.podSecurityContext" -}}
   securityContext:
     runAsNonRoot: true
