@@ -16,7 +16,7 @@ spec:
         app: paws
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
-      serviceAccountName: installer-service
+      serviceAccountName: pa-service
       containers:
         - name: paws
           image: "{{ .Values.repo }}/ws:{{ .Chart.AppVersion }}"
