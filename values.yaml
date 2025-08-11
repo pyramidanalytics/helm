@@ -89,6 +89,7 @@ storage:
   # Type of persistent storage.
   # Applicable values are: GoogleStore, NFS, other
   # GoogleStore/NFS - define a PersistentVolume resource.
+  # claim - Use existing PersistentVolumeClaim resource.
   # other - Defines external storage options (such as FTP/AWS S3/Azure Blob), which are configured via the WEB UI installation or the unattended installation.
   type: other
   # When type is set to GoogleStore/NFS: specify the size of the PersistentVolume and the relevant section
@@ -104,6 +105,10 @@ storage:
   GoogleStore:
     #This parameter specifies the VPC network that the Filestore instance will be created on.
     network: default
+  claim:
+    # If you want to use an existing PersistentVolumeClaim, set this field to the name of the claim.
+    # The claim must be in the same namespace as the pyramid installation.
+    name: "pyramid-storage-pvc"
 #ws is the web server which handle http networking and authentication
 ws:
   #defult port for your ws, match this with your ingress
@@ -156,7 +161,7 @@ rte:
   replicas: 1
   #satellties are used to preview ETL results
   satellites: 1
-  #in the event of a high cpu usage the autoscale will add another RTE server
+  #in the event of a high cpu usage, the autoscale will add another RTE server
   autoscaling:
     enabled: false
     minReplicas: 1
@@ -222,9 +227,9 @@ te:
   terminationGracePeriodSeconds: 300
   replicas: 1
   #satellites are used to run ETL tasks
-  satellites: 3
+  satellites: 2
   #printers are used to export printing result to PDF, Power Point, Word, excel, HTML to and a few
-  printers: 3
+  printers: 2
 
   #in the event of a long queue in the task engine the autoscale will add another TE server
   kedaAutoscaling:
@@ -244,8 +249,6 @@ ai:
     cpu: "16000m"
     ephemeral_storage: "5Gi"
   replicas: 1
-  #full flag makes the system use AIF Docker image with pre-installed Python libraries, designed for offline use.
-  full: false
   autoscaling:
     enabled: false
     minReplicas: 1

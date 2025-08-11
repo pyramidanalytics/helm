@@ -19,7 +19,7 @@ spec:
       serviceAccountName: pa-service
       containers:
         - name: paai
-          image: "{{ .Values.repo }}/{{ if .Values.ai.full }}aif{{ else }}ai{{ end }}:{{ .Chart.AppVersion }}"
+          image: "{{ .Values.repo }}/ai:{{ .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.imagePullPolicy }}
           readinessProbe:
             exec:

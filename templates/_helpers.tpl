@@ -66,6 +66,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
       fieldPath: metadata.namespace
 {{- end }}
 
+
 {{- define "pyramidAnalytics.podSecurityContext" -}}
   securityContext:
     runAsNonRoot: true
@@ -92,7 +93,7 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 volumes:
 - name: persistent-storage
   persistentVolumeClaim:
-    claimName: pyramid-storage-pvc
+    claimName: {{ $.Values.storage.claim.name }}
 {{- end }}
 {{- end }}
 
