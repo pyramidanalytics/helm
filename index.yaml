@@ -2,6 +2,16 @@ apiVersion: v1
 entries:
   pyramidanalytics:
   - apiVersion: v2
+    appVersion: 2025.01.170
+    created: "2025-08-19T15:10:40.1140713+03:00"
+    description: A Helm chart for PyramidAnalytics Kubernetes solution
+    digest: 78e53bc682f18a800c1098521c8d89e0c4e60219b5d02a2ca048438427f422b2
+    name: pyramidanalytics
+    type: application
+    urls:
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2025.01.170.tgz
+    version: 2025.01.170
+  - apiVersion: v2
     appVersion: 2025.01.168
     created: "2025-08-11T11:02:38.3396528+03:00"
     description: A Helm chart for PyramidAnalytics Kubernetes solution
@@ -9,7 +19,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2025.01.168.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2025.01.168.tgz
     version: 2025.01.168
   - apiVersion: v2
     appVersion: 2025.00.380
@@ -19,7 +29,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2025.00.380.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2025.00.380.tgz
     version: 2025.00.380
   - apiVersion: v2
     appVersion: 2025.00.378
@@ -29,8 +39,18 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2025.00.378.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2025.00.378.tgz
     version: 2025.00.378
+  - apiVersion: v2
+    appVersion: 2024.03.005
+    created: "2025-08-19T15:10:40.11007+03:00"
+    description: A Helm chart for PyramidAnalytics Kubernetes solution
+    digest: 6ccc16594a657d90ba446590542693732188ba479c84deabe389c7b9086ff436
+    name: pyramidanalytics
+    type: application
+    urls:
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2024.03.005.tgz
+    version: 2024.03.005
   - apiVersion: v2
     appVersion: 2024.03.002
     created: "2025-07-09T15:59:22.3801083+03:00"
@@ -39,7 +59,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2024.03.002.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2024.03.002.tgz
     version: 2024.03.002
   - apiVersion: v2
     appVersion: 2024.02.004
@@ -49,7 +69,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2024.02.004.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2024.02.004.tgz
     version: 2024.02.004
   - apiVersion: v2
     appVersion: 2024.01.006
@@ -59,7 +79,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2024.01.006.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2024.01.006.tgz
     version: 2024.01.006
   - apiVersion: v2
     appVersion: 2024.00.004
@@ -69,7 +89,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2024.00.004.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2024.00.004.tgz
     version: 2024.00.004
   - apiVersion: v2
     appVersion: 2023.18.056
@@ -79,7 +99,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.18.056.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.18.056.tgz
     version: 2023.18.056
   - apiVersion: v2
     appVersion: 2023.17.029
@@ -89,7 +109,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.17.029.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.17.029.tgz
     version: 2023.17.029
   - apiVersion: v2
     appVersion: 2023.16.076
@@ -99,7 +119,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.16.076.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.16.076.tgz
     version: 2023.16.076
   - apiVersion: v2
     appVersion: 2023.15.054
@@ -109,7 +129,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.15.054.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.15.054.tgz
     version: 2023.15.054
   - apiVersion: v2
     appVersion: 2023.14.100
@@ -119,7 +139,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.14.100.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.14.100.tgz
     version: 2023.14.100
   - apiVersion: v2
     appVersion: 2023.13.153
@@ -129,7 +149,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.13.153.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.13.153.tgz
     version: 2023.13.153
   - apiVersion: v2
     appVersion: 2023.13.117
@@ -139,7 +159,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.13.117.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.13.117.tgz
     version: 2023.13.117
   - apiVersion: v2
     appVersion: 2023.12.184
@@ -149,7 +169,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.12.184.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.12.184.tgz
     version: 2023.12.184
   - apiVersion: v2
     appVersion: 2023.12.181
@@ -159,7 +179,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.12.181.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.12.181.tgz
     version: 2023.12.181
   - apiVersion: v2
     appVersion: 2023.11.129
@@ -169,7 +189,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.11.129.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.11.129.tgz
     version: 2023.11.129
   - apiVersion: v2
     appVersion: 2023.10.129
@@ -179,7 +199,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.10.129.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.10.129.tgz
     version: 2023.10.129
   - apiVersion: v2
     appVersion: 2023.10.112
@@ -189,7 +209,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.10.112.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.10.112.tgz
     version: 2023.10.112
   - apiVersion: v2
     appVersion: 2023.01.063
@@ -199,7 +219,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.01.063.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.01.063.tgz
     version: 2023.01.063
   - apiVersion: v2
     appVersion: 2023.01.043
@@ -209,7 +229,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.01.043.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.01.043.tgz
     version: 2023.01.043
   - apiVersion: v2
     appVersion: 2023.01.011
@@ -219,7 +239,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.01.011.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.01.011.tgz
     version: 2023.01.011
   - apiVersion: v2
     appVersion: 2023.00.357
@@ -229,7 +249,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2023.00.357.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2023.00.357.tgz
     version: 2023.00.357
   - apiVersion: v2
     appVersion: 2020.29.055
@@ -239,7 +259,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2020.29.055.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2020.29.055.tgz
     version: 2020.29.055
   - apiVersion: v2
     appVersion: 2020.28.140
@@ -249,7 +269,7 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2020.28.140.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2020.28.140.tgz
     version: 2020.28.140
   - apiVersion: v2
     appVersion: 2020.27.135
@@ -259,6 +279,6 @@ entries:
     name: pyramidanalytics
     type: application
     urls:
-    - pyramidanalytics-2020.27.135.tgz
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2020.27.135.tgz
     version: 2020.27.135
 generated: "2024-07-09T12:12:41.7811234+03:00"
