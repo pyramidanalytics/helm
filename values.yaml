@@ -143,7 +143,7 @@ rtr:
     memory: "1000Mi"
     cpu: "1000m"
   limits:
-  #you can increase those values to better match your nodes, but normally there shouldn't be a need for it
+    #you can increase those values to better match your nodes, but normally there shouldn't be a need for it
     memory: "1000Mi"
     cpu: "4000m"
 
@@ -154,7 +154,7 @@ rte:
     memory: "4000Mi"
     cpu: "2000m"
   limits:
-  #you can increase those values to better match your nodes, based on system usage the RTE can be very cpu heavy
+    #you can increase those values to better match your nodes, based on system usage the RTE can be very cpu heavy
     memory: "8000Mi"
     cpu: "8000m"
   #how many replicates do you want, the system will do it's best to use all of them equally 
@@ -219,7 +219,7 @@ te:
     cpu: "4000m"
     ephemeral_storage: "3Gi"
   limits:
-  #you can increase those values to better match your nodes, based on system usage the TE can be CPU heavy and memory heavy
+    #you can increase those values to better match your nodes, based on system usage the TE can be CPU heavy and memory heavy
     memory: "16000Mi"
     cpu: "16000m"
     ephemeral_storage: "10Gi"
@@ -244,7 +244,7 @@ ai:
     cpu: "4000m"
     ephemeral_storage: "3Gi"
   limits:
-  #you can increase those values to better match your nodes, based on system usage the AI can be very cpu heavy
+    #you can increase those values to better match your nodes, based on system usage the AI can be very cpu heavy
     memory: "16000Mi"
     cpu: "16000m"
     ephemeral_storage: "5Gi"

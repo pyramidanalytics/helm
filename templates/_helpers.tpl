@@ -52,6 +52,8 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 
 
 {{- define "pyramidAnalytics.baseEnv" -}}
+- name: PYRAMID_DOCKER_REGISTRY
+  value: "{{ .Values.repo }}"
 - name: host_name
   valueFrom:
     fieldRef:
