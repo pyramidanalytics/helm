@@ -5,7 +5,7 @@ entries:
     appVersion: 2025.10.005
     created: "2026-05-18T00:01:34.3029193+03:00"
     description: A Helm chart for PyramidAnalytics Kubernetes solution
-    digest: a756516a001da68d0c077f23ccac8af0ac1743b84470fb6f1b27084c8d34013d
+    digest: bde59d220fe36efe85dcc1494fa79b9b87def554bcb599d2ea7fbe0b2ab4971c
     name: pyramidanalytics
     type: application
     urls:
