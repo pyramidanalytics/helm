@@ -12,6 +12,16 @@ entries:
     - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2025.10.005.tgz
     version: 2025.10.005
   - apiVersion: v2
+    appVersion: 2024.06.045
+    created: "2026-05-20T19:47:17.1313842+03:00"
+    description: A Helm chart for PyramidAnalytics Kubernetes solution
+    digest: 3463dedfdd39583526799651f280c395f34f7573846745711586224e87eb6547
+    name: pyramidanalytics
+    type: application
+    urls:
+    - https://pyramidanalytics.github.io/helm/packages/pyramidanalytics-2024.06.045.tgz
+    version: 2024.06.045
+  - apiVersion: v2
     appVersion: 2025.03.110
     created: "2026-03-27T11:49:02.6401273+03:00"
     description: A Helm chart for PyramidAnalytics Kubernetes solution
