@@ -9,7 +9,7 @@ metadata:
 spec:
   selector:
     app: paws
-  type: LoadBalancer
+  type: {{ .Values.ws.serviceType | default "LoadBalancer" }}
   ports:
     - name: "http"
       port: {{.Values.ws.port}}

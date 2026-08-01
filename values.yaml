@@ -113,6 +113,9 @@ storage:
 ws:
   #defult port for your ws, match this with your ingress
   port: 8181
+  #service type for the pyramid service. LoadBalancer exposes it directly.
+  #set to ClusterIP when an ingress controller terminates TLS in front of it
+  serviceType: LoadBalancer
   #how many ws would you want
   replicas: 1
   requests:
