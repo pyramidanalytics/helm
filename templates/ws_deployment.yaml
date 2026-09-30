@@ -16,6 +16,9 @@ spec:
         app: paws
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+{{- with (include "pyramidAnalytics.nodeSelector" (dict "root" $ "local" .Values.ws.nodeSelector "skip" .Values.ws.disableGlobalNodeSelector)) }}
+{{ . | indent 6 }}
+{{- end }}
       serviceAccountName: installer-service
       containers:
         - name: paws

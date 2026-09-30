@@ -16,6 +16,9 @@ spec:
         app: pate
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+{{- with (include "pyramidAnalytics.nodeSelector" (dict "root" $ "local" .Values.te.nodeSelector "skip" .Values.te.disableGlobalNodeSelector)) }}
+{{ . | indent 6 }}
+{{- end }}
       serviceAccountName: pa-service
       terminationGracePeriodSeconds: {{ .Values.te.terminationGracePeriodSeconds }}
       containers:

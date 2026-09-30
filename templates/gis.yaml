@@ -16,11 +16,14 @@ spec:
         app: pagis
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+{{- with (include "pyramidAnalytics.nodeSelector" (dict "root" $ "local" .Values.gis.nodeSelector "skip" .Values.gis.disableGlobalNodeSelector)) }}
+{{ . | indent 6 }}
+{{- end }}
       serviceAccountName: pa-service
       containers:
         - name: pagis
           image: "{{ .Values.repo }}/gis:{{ .Chart.AppVersion }}"
-          imagePullPolicy: "IfNotPresent"
+          imagePullPolicy: {{ .Values.imagePullPolicy }}
           readinessProbe:
             exec:
               command:
@@ -35,6 +38,8 @@ spec:
           env:
 {{- include "pyramidAnalytics.baseEnv" . | nindent 12 }}
 {{- include "pyramidAnalytics.containerSecurityContext" . | nindent 10 }}
+{{- include "pyramidAnalytics.dbMtls.mount" . | nindent 6 }}
+{{- include "pyramidAnalytics.dbMtls.volume" . | nindent 6 }}
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000

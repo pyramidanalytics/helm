@@ -16,6 +16,9 @@ spec:
         app: panlp
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+{{- with (include "pyramidAnalytics.nodeSelector" (dict "root" $ "local" .Values.nlp.nodeSelector "skip" .Values.nlp.disableGlobalNodeSelector)) }}
+{{ . | indent 6 }}
+{{- end }}
       serviceAccountName: pa-service
       containers:
         - name: panlp

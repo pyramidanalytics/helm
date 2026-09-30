@@ -16,6 +16,9 @@ spec:
         app: parte
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+{{- with (include "pyramidAnalytics.nodeSelector" (dict "root" $ "local" .Values.rte.nodeSelector "skip" .Values.rte.disableGlobalNodeSelector)) }}
+{{ . | indent 6 }}
+{{- end }}
       serviceAccountName: pa-service
       containers:
         - name: parte

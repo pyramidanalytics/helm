@@ -16,6 +16,9 @@ spec:
         app: paai
         {{- include "pyramidAnalytics.selectorLabels" . | nindent 8 }}
     spec:
+{{- with (include "pyramidAnalytics.nodeSelector" (dict "root" $ "local" .Values.ai.nodeSelector "skip" .Values.ai.disableGlobalNodeSelector)) }}
+{{ . | indent 6 }}
+{{- end }}
       serviceAccountName: pa-service
       containers:
         - name: paai

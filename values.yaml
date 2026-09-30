@@ -1,5 +1,10 @@
 repo: "pyramidanalytics"
 imagePullPolicy: "IfNotPresent"
+# Optional nodeSelector applied to every pod, unless a specific service below defines its own nodeSelector (which then takes precedence for that service).
+# Example:
+# nodeSelector:
+#   disktype: ssd
+nodeSelector: {}
 #unattended is all optional, if not enabled you will get a UI on first load letting you configure it all
 unattended:
   enabled: false
@@ -37,6 +42,14 @@ unattended:
     enforceDbSsl: "off"
     #When using encrypted database, you can upload your own Certificate using this field, it's optional, base64 encoded zip file
     dbSslRootCert: ""
+    # Repository mTLS paths. Configure these when dbMtls.enabled is true.
+    dbClientCertPath: ""
+    dbClientKeyPath: ""
+    dbClientKeyPassword: ""
+    dbSslRootCertPath: ""
+    # Enable only when serverAddress is a TCP proxy whose hostname is not on the upstream DB certificate.
+    # The certificate chain and repository client certificate are still validated.
+    dbProxyEnabled: false
     #Use fips compatible encryption algorithms, this will disable some of the product functionality
     fips: false
     # The name of the initial (admin) user created in the pyramid system
@@ -84,6 +97,13 @@ unattended:
     # If the field is not specified, the license can instead be uploaded to the system after installation.
     license: "licenseTextContent"
 
+# Mutual TLS for the repository PostgreSQL connection. The Secret contains certificate material;
+# Pyramid stores and transports only its mounted paths and the protected-key password.
+dbMtls:
+  enabled: false
+  secretName: "pyramid-db-client-cert"
+  mountPath: "/opt/pyramid/conf/db-certs"
+
 # Persistent storage configured for applicable pods.
 storage:
   # Type of persistent storage.
@@ -111,6 +131,10 @@ storage:
     name: "pyramid-storage-pvc"
 #ws is the web server which handle http networking and authentication
 ws:
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   #defult port for your ws, match this with your ingress
   port: 8181
   #how many ws would you want
@@ -136,6 +160,10 @@ ws:
 
 #rtr router is the core of request routing, deciding where to send the request
 rtr:
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   #how many routers you want, 1 is fine for performance, 2 will increase reliability, 3 and more are meaningless
   replicas: 1
   requests:
@@ -149,6 +177,10 @@ rtr:
 
 #rte is the runtime engine, the core of the application which handles all active requests, queries and CMS
 rte:
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "4000Mi"
@@ -173,6 +205,10 @@ rte:
 
 #nlp is the nlp engine, the service responsible for the chatbot function in the discover app
 nlp:
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "4000Mi"
@@ -193,6 +229,10 @@ nlp:
 
 #solve is the solver engine, a service which runs the solve requests
 solve:
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "4000Mi"
@@ -213,6 +253,10 @@ solve:
 
 #te is the Task engine, handles ETLs and prints
 te:
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "4000Mi"
@@ -238,6 +282,10 @@ te:
     maxReplicas: 5
 #ai is the artificial intelligence server which host all Python and R script handling
 ai:
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "4000Mi"
@@ -259,6 +307,10 @@ ai:
 #supports only 1 replica
 gis:
   enabled: true
+  # Optional nodeSelector for this service only, overrides the global nodeSelector above.
+  nodeSelector: {}
+  # Set to true to opt this service out of the global nodeSelector above (has no effect if this service's own nodeSelector above is set).
+  disableGlobalNodeSelector: false
   requests:
     #minimal amount of memory guaranteed, you can add here but don't reduce
     memory: "500Mi"
